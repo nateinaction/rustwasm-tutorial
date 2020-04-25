@@ -39,16 +39,22 @@ const getIndex = (row, column) => {
 	return row * width + column;
 }
 
+const bitIsSet = (i, arr) => {
+	const byte = Math.floor(i / 8);
+	const mask = 1 << (i % 8);
+	return (arr[byte] & mask) === mask;
+}
+
 const drawCells = () => {
 	const cellsPtr = universe.cells();
-	const cells = new Uint8Array(memory.buffer, cellsPtr, width * height);
+	const cells = new Uint8Array(memory.buffer, cellsPtr, width * height / 8);
 
 	ctx.beginPath();
 
 	for (let row = 0; row < height; row++) {
 		for (let col = 0; col < width; col ++) {
 			const i = getIndex(row, col);
-			ctx.fillStyle = cells[i] === Cell.Dead ? DEAD_COLOR : ALIVE_COLOR;
+			ctx.fillStyle = bitIsSet(i, cells) ? DEAD_COLOR : ALIVE_COLOR;
 			ctx.fillRect(
 				col * (CELL_SIZE + 1) + 1,
 				row * (CELL_SIZE + 1) + 1,
