@@ -1,11 +1,14 @@
 Following [this tutorial](https://rustwasm.github.io/docs/book/game-of-life/introduction.html)
 
 Setup:
-`cargo`
-`cd www && npm install`
+`cargo`	`wasm-pack build`
+`cd www && npm install`	`cd www && npm install`
 
-Build:
-`wasm-bindgen`
+Test:
+`wasm-pack test --firefox --chrome --headless`
+
+Build:	Build:
+`wasm-bindgen`	`wasm-pack`
 
 Preview:
 `cd www && npm run start`
