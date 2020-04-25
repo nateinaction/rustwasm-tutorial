@@ -1,18 +1,12 @@
 mod utils;
 
 use wasm_bindgen::prelude::*;
-use std::fmt;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
-
-#[wasm_bindgen]
-extern {
-    fn alert(s: &str);
-}
 
 #[wasm_bindgen]
 #[repr(u8)]
@@ -95,10 +89,6 @@ impl Universe {
 		}
 	}
 
-	pub fn render(&self) -> String {
-		self.to_string()
-	}
-
 	pub fn width(&self) -> u32 {
 		self.width
 	}
@@ -111,17 +101,3 @@ impl Universe {
 		self.cells.as_ptr()
 	}
 }
-
-impl fmt::Display for Universe {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		for line in self.cells.as_slice().chunks(self.width as usize) {
-			for &cell in line {
-				let symbol = if cell == Cell::Dead { '◻' } else { '◼' };
-				write!(f, "{}", symbol)?;
-			}
-			write!(f, "\n")?;
-		}
-		Ok(())
-	}
-}
-
